@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 # Return an int froom kernel version to allow to compare
 def version_to_int(version, major, minor):
     pattern = "{0:03d}{1:03d}{2:03d}"
