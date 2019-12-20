@@ -5,26 +5,27 @@ from helpers.mcu import *
 import fcntl
 import unittest
 
+
 class TestCrosECMCU(unittest.TestCase):
     def test_cros_ec_abi(self):
-        check_mcu_abi(self, "ec");
+        check_mcu_abi(self, "ec")
 
     def test_cros_fp_abi(self):
-        check_mcu_abi(self, "fp");
+        check_mcu_abi(self, "fp")
 
     def test_cros_tp_abi(self):
-        check_mcu_abi(self, "tp");
+        check_mcu_abi(self, "tp")
 
     def test_cros_pd_abi(self):
-        check_mcu_abi(self, "pd");
+        check_mcu_abi(self, "pd")
 
     def test_cros_ec_chardev(self):
         self.assertEqual(os.path.exists("/dev/cros_ec"), 1)
 
     def test_cros_ec_hello(self):
-        fd = open("/dev/cros_ec", 'r')
+        fd = open("/dev/cros_ec", "r")
         param = ec_params_hello()
-        param.in_data = 0xa0b0c0d0 # magic number that the EC expects on HELLO
+        param.in_data = 0xA0B0C0D0  # magic number that the EC expects on HELLO
 
         response = ec_response_hello()
 
@@ -42,5 +43,4 @@ class TestCrosECMCU(unittest.TestCase):
 
         self.assertEqual(cmd.result, 0)
         # magic number that the EC answers on HELLO
-        self.assertEqual(response.out_data, 0xa1b2c3d4)
-
+        self.assertEqual(response.out_data, 0xA1B2C3D4)

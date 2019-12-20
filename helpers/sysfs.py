@@ -3,17 +3,19 @@
 
 import os
 
+
 def read_file(name):
-    fd = open(name, 'r')
+    fd = open(name, "r")
     contents = fd.read()
     fd.close()
     return contents
+
 
 def sysfs_check_attributes_exists(s, path, name, files, check_devtype):
     match = 0
     for devname in os.listdir(path):
         if check_devtype:
-            fd = open(path + "/" + devname + "/name", 'r')
+            fd = open(path + "/" + devname + "/name", "r")
             devtype = fd.read()
             fd.close()
             if not devtype.startswith(name):
