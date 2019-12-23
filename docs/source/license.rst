@@ -1,0 +1,6 @@
+********
+Licenses
+********
+
+.. include:: ../../LICENSE
+
