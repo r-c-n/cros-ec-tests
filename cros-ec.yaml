@@ -1,9 +1,0 @@
-metadata:
-  name: cros-ec
-  description: "cros-ec test plan"
-  environment:
-    - lava-test-shell
-
-run:
-  steps:
-    - python3 $(pwd)/test-cros-ec.py

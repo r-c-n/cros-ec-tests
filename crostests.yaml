@@ -1,0 +1,9 @@
+metadata:
+  name: crostests
+  description: "cros test plan"
+  environment:
+    - lava-test-shell
+
+run:
+  steps:
+    - python3 -m runners.lava_runner
