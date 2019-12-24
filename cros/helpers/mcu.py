@@ -95,6 +95,9 @@ def EC_FEATURE_MASK_1(event_code):
 
 
 def is_feature_supported(feature):
+    """ Returns true if the Embedded Controller supports the specified
+        'feature'.
+    """
     global ECFEATURES
 
     if ECFEATURES == -1:
@@ -124,6 +127,9 @@ def is_feature_supported(feature):
 
 
 def check_mcu_abi(s, name):
+    """ Checks that the MCU character device exists in /dev and then verifies
+        the standard MCU ABI in /sys/class/chromeos.
+    """
     if not os.path.exists("/dev/cros_" + name):
         s.skipTest("MCU " + name + " not supported, skipping")
     files = ["flashinfo", "reboot", "version"]

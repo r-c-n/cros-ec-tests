@@ -5,6 +5,7 @@ import os
 
 
 def read_file(name):
+    """ Returns the content of the file named 'name'."""
     fd = open(name, "r")
     contents = fd.read()
     fd.close()
@@ -12,6 +13,10 @@ def read_file(name):
 
 
 def sysfs_check_attributes_exists(s, path, name, files, check_devtype):
+    """ Checks that all attributes listed in 'files' for a given 'path' exists.
+        Note that the 'name' parameter is used to define a pattern to match
+        before checking a device path.
+    """
     match = 0
     for devname in os.listdir(path):
         if check_devtype:
