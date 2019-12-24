@@ -7,6 +7,7 @@ import unittest
 
 class TestCrosECextcon(unittest.TestCase):
     def test_cros_ec_extcon_usbc_abi(self):
+        """ Checks the cros-ec extcon ABI. """
         match = 0
         for devname in os.listdir("/sys/class/extcon"):
             devtype = read_file("/sys/class/extcon/" + devname + "/name")

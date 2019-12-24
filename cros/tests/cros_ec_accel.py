@@ -9,6 +9,7 @@ import unittest
 
 class TestCrosECAccel(unittest.TestCase):
     def test_cros_ec_accel_iio_abi(self):
+        """ Checks the cros-ec accelerometer IIO ABI. """
         files = [
             "buffer",
             "calibrate",
@@ -38,10 +39,11 @@ class TestCrosECAccel(unittest.TestCase):
                 self, "/sys/bus/iio/devices", "cros-ec-accel", ["frequency"], True
             )
 
-    # This function validate accelerometer data by computing the magnitude.
-    # If the magnitude is not closed to 1G, that means data are invalid or
-    # the machine is in movement or there is a earth quake.
     def test_cros_ec_accel_iio_data_is_valid(self):
+        """ Validates accelerometer data by computing the magnitude. If the
+            magnitude is not closed to 1G, that means data are invalid or
+            the machine is in movement or there is a earth quake.
+        """
         ACCEL_1G_IN_MS2 = 9.8185
         ACCEL_MAG_VALID_OFFSET = 0.25
         match = 0

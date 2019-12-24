@@ -7,6 +7,7 @@ import unittest
 
 class TestCrosECPower(unittest.TestCase):
     def test_cros_ec_usbpd_charger_abi(self):
+        """ Check the cros USBPD charger ABI. """
         files = [
             "current_max",
             "input_current_limit",
@@ -26,6 +27,7 @@ class TestCrosECPower(unittest.TestCase):
         )
 
     def test_cros_ec_battery_abi(self):
+        """ Check the cros battery ABI. """
         files = [
             "alarm",
             "capacity_level",

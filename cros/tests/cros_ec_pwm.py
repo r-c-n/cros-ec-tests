@@ -7,6 +7,10 @@ import unittest
 
 class TestCrosECPWM(unittest.TestCase):
     def test_cros_ec_pwm_backlight(self):
+        """ Check that the backlight is connected to a pwm of the EC and that
+            programming a brightness level to the backlight affects the PWM
+            duty cycle.
+        """
         if not os.path.exists("/sys/class/backlight/backlight/max_brightness"):
             self.skipTest("No backlight pwm found, skipping")
         is_ec_pwm = False

@@ -8,6 +8,7 @@ import unittest
 
 class TestCrosECGyro(unittest.TestCase):
     def test_cros_ec_gyro_iio_abi(self):
+        """ Checks the cros-ec gyroscope IIO ABI. """
         files = [
             "buffer/",
             "calibrate",

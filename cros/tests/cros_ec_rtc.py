@@ -8,6 +8,7 @@ import unittest
 
 class TestCrosECRTC(unittest.TestCase):
     def test_cros_ec_rtc_abi(self):
+        """ Check the cros RTC ABI. """
         if not is_feature_supported(EC_FEATURE_RTC):
             self.skipTest("EC_FEATURE_RTC not supported, skipping")
         match = 0
