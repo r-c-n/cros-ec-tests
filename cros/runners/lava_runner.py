@@ -21,25 +21,29 @@ class LavaTextTestResult(unittest.TestResult):
     def addSuccess(self, test):
         unittest.TestResult.addSuccess(self, test)
         self.runner.writeUpdate(
-            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=pass>\n" % test.id()
+            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=pass>\n"
+            % test.id().rsplit(".")[-1]
         )
 
     def addError(self, test, err):
         unittest.TestResult.addError(self, test, err)
         self.runner.writeUpdate(
-            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=unknown>\n" % test.id()
+            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=unknown>\n"
+            % test.id().rsplit(".")[-1]
         )
 
     def addFailure(self, test, err):
         unittest.TestResult.addFailure(self, test, err)
         self.runner.writeUpdate(
-            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=fail>\n" % test.id()
+            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=fail>\n"
+            % test.id().rsplit(".")[-1]
         )
 
     def addSkip(self, test, reason):
         unittest.TestResult.addSkip(self, test, reason)
         self.runner.writeUpdate(
-            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=skip>\n" % test.id()
+            "<LAVA_SIGNAL_TESTCASE TEST_CASE_ID=%s RESULT=skip>\n"
+            % test.id().rsplit(".")[-1]
         )
 
 
