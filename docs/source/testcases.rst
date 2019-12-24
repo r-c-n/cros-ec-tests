@@ -12,42 +12,42 @@ collected into test suites.
 cros-ec-accel
 =============
 
-.. automodule:: tests.cros_ec_accel
+.. automodule:: cros.tests.cros_ec_accel
    :members:
 
 cros-ec-extcon
 ==============
 
-.. automodule:: tests.cros_ec_extcon
+.. automodule:: cros.tests.cros_ec_extcon
    :members:
 
 cros-ec-gyro
 ============
 
-.. automodule:: tests.cros_ec_gyro
+.. automodule:: cros.tests.cros_ec_gyro
    :members:
 
 cros-ec-mcu
 ===========
 
-.. automodule:: tests.cros_ec_mcu
+.. automodule:: cros.tests.cros_ec_mcu
    :members:
 
 cros-ec-power
 =============
 
-.. automodule:: tests.cros_ec_power
+.. automodule:: cros.tests.cros_ec_power
    :members:
 
 cros-ec-pwm
 ===========
 
-.. automodule:: tests.cros_ec_pwm
+.. automodule:: cros.tests.cros_ec_pwm
    :members:
 
 cros-ec-rtc
 ===========
 
-.. automodule:: tests.cros_ec_rtc
+.. automodule:: cros.tests.cros_ec_rtc
    :members:
 

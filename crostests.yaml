@@ -6,4 +6,4 @@ metadata:
 
 run:
   steps:
-    - python3 -m runners.lava_runner
+    - python3 -m cros.runners.lava_runner

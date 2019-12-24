@@ -4,13 +4,13 @@
 import sys
 import unittest
 
-from tests.cros_ec_accel import *
-from tests.cros_ec_gyro import *
-from tests.cros_ec_mcu import *
-from tests.cros_ec_pwm import *
-from tests.cros_ec_rtc import *
-from tests.cros_ec_power import *
-from tests.cros_ec_extcon import *
+from cros.tests.cros_ec_accel import *
+from cros.tests.cros_ec_gyro import *
+from cros.tests.cros_ec_mcu import *
+from cros.tests.cros_ec_pwm import *
+from cros.tests.cros_ec_rtc import *
+from cros.tests.cros_ec_power import *
+from cros.tests.cros_ec_extcon import *
 
 
 class LavaTextTestResult(unittest.TestResult):

@@ -5,18 +5,18 @@ Test Helpers
 kernel
 ======
 
-.. automodule:: helpers.kernel
+.. automodule:: cros.helpers.kernel
    :members:
 
 mcu
 ===
 
-.. automodule:: helpers.mcu
+.. automodule:: cros.helpers.mcu
    :members:
 
 sysfs
 =====
 
-.. automodule:: helpers.sysfs
+.. automodule:: cros.helpers.sysfs
    :members:
 

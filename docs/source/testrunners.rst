@@ -13,6 +13,6 @@ Test Runner, you can easily:
 LAVA Test Runner
 ----------------
 
-.. automodule:: runners.lava_runner
+.. automodule:: cros.runners.lava_runner
    :members:
 

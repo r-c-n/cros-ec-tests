@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from helpers.sysfs import *
-from helpers.kernel import *
+from cros.helpers.sysfs import *
+from cros.helpers.kernel import *
 import unittest
 
 

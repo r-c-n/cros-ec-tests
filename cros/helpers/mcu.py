@@ -3,7 +3,7 @@
 
 import fcntl
 import os
-from helpers.sysfs import *
+from cros.helpers.sysfs import *
 from ctypes import *
 
 EC_CMD_PROTO_VERSION = 0x0000

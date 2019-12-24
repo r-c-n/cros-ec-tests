@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from helpers.mcu import *
+from cros.helpers.mcu import *
 import fcntl
 import unittest
 
