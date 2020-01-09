@@ -3,12 +3,12 @@ Testing Guidelines
 ******************
 
 This section describes the testing framework and format standards for tests in
-``crostests`` packages.
+``cros-ec-tests`` packages.
 
 Testing Framework
 *****************
 
-The testing framework used by ``crostests``  is the `unittest`_ framework.
+The testing framework used by ``cros-ec-tests``  is the `unittest`_ framework.
 
 .. _unittest: https://docs.python.org/3/library/unittest.html
 
@@ -17,14 +17,14 @@ Running Tests
 
 The first thing you should do is download latest source version::
 
-    git clone https://gitlab.collabora.com/chromiumos/crostests.git
-    cd crostests
+    git clone git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/cros-ec-tests.git
+    cd cros-ec-tests
 
 At the root of the project, add the current directory in the PYTHONPATH::
 
     export PYTHONPATH=${PYTHONPATH}:${PWD}
 
-There are currently different ways to invoke ``crostests``. Each method
+There are currently different ways to invoke ``cros-ec-tests``. Each method
 invokes `unittest`_ to run the tests but offers different options when
 calling. To run the tests, you will need to make sure you have the `unittest`_
 package is installed.
@@ -83,7 +83,7 @@ The result is::
     Check the return value of func() for an example argument.
     ----------------------------------------------------------------------
     Traceback (most recent call last):
-      File "~/crostests/cros/tests/example.py", line 13, in test_answer
+      File "~/cros-ec-tests/cros/tests/example.py", line 13, in test_answer
           self.assertEqual(func(3), 5)
     AssertionError: 4 != 5
 

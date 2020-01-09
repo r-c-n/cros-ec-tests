@@ -1,6 +1,6 @@
 metadata:
-  name: crostests
-  description: "cros test plan"
+  name: cros-ec-tests
+  description: "cros-ec test plan"
   environment:
     - lava-test-shell
 

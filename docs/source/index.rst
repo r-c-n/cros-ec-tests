@@ -9,11 +9,11 @@
 Chromebooks Test Suite Documentation
 ####################################
 
-The ``crostests`` package is a framework for fully automated testing. It is
+The ``cros-ec-tests`` package is a framework for fully automated testing. It is
 designed primarily to test the Linux Kernel under KernelCI with the main focus
 on Chromebooks devices.
 
-``crostests`` is composed of a number of modules that will help you to do stand
+``cros-ec-tests`` is composed of a number of modules that will help you to do stand
 alone tests or setup a fully automated test on KernelCI, depending on what you
 are up to.
 
