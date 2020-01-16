@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Chromebooks Test Suite'
+project = 'Chrome OS EC Test Suite'
 copyright = '2019, Fabien Lahoudere and Enric Balletbo'
 author = 'Fabien Lahoudere and Enric Balletbo'
 

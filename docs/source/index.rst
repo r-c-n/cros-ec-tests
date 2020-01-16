@@ -1,13 +1,13 @@
-.. Chromebooks Test Suite documentation master file, created by
+.. Chrome OS EC Test Suite documentation master file, created by
    sphinx-quickstart on Fri Dec 20 14:19:08 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
 :tocdepth: 3
 
-####################################
-Chromebooks Test Suite Documentation
-####################################
+#####################################
+Chrome OS EC Test Suite Documentation
+#####################################
 
 The ``cros-ec-tests`` package is a framework for fully automated testing. It is
 designed primarily to test the Linux Kernel under KernelCI with the main focus
