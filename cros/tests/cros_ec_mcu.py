@@ -29,24 +29,17 @@ class TestCrosECMCU(unittest.TestCase):
 
     def test_cros_ec_hello(self):
         """ Checks basic comunication with the main Embedded controller. """
-        fd = open("/dev/cros_ec", "r")
-        param = ec_params_hello()
-        param.in_data = 0xA0B0C0D0  # magic number that the EC expects on HELLO
+        mcu_hello(self, "cros_ec")
 
-        response = ec_response_hello()
+    def test_cros_fp_hello(self):
+        """ Checks basic comunication with the fingerprint controller. """
+        mcu_hello(self, "cros_fp")
 
-        cmd = cros_ec_command()
-        cmd.version = 0
-        cmd.command = EC_CMD_HELLO
-        cmd.insize = sizeof(param)
-        cmd.outsize = sizeof(response)
+    def test_cros_tp_hello(self):
+        """ Checks basic comunication with the touchpad controller. """
+        mcu_hello(self, "cros_tp")
 
-        memmove(addressof(cmd.data), addressof(param), cmd.outsize)
-        fcntl.ioctl(fd, EC_DEV_IOCXCMD, cmd)
-        memmove(addressof(response), addressof(cmd.data), cmd.insize)
+    def test_cros_pd_hello(self):
+        """ Checks basic comunication with the power delivery controller. """
+        mcu_hello(self, "cros_pd")
 
-        fd.close()
-
-        self.assertEqual(cmd.result, 0)
-        # magic number that the EC answers on HELLO
-        self.assertEqual(response.out_data, 0xA1B2C3D4)

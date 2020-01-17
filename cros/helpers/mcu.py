@@ -136,3 +136,30 @@ def check_mcu_abi(s, name):
     sysfs_check_attributes_exists(
         s, "/sys/class/chromeos/", "cros_" + name, files, False
     )
+
+
+def mcu_hello(s, name):
+    """ Checks basic comunication with MCU. """
+    if not os.path.exists("/dev/" + name):
+        s.skipTest("MCU " + name + " not present, skipping")
+    fd = open("/dev/" + name, "r")
+    param = ec_params_hello()
+    param.in_data = 0xA0B0C0D0  # magic number that the EC expects on HELLO
+
+    response = ec_response_hello()
+
+    cmd = cros_ec_command()
+    cmd.version = 0
+    cmd.command = EC_CMD_HELLO
+    cmd.insize = sizeof(param)
+    cmd.outsize = sizeof(response)
+
+    memmove(addressof(cmd.data), addressof(param), cmd.insize)
+    fcntl.ioctl(fd, EC_DEV_IOCXCMD, cmd)
+    memmove(addressof(response), addressof(cmd.data), cmd.outsize)
+
+    fd.close()
+
+    s.assertEqual(cmd.result, 0)
+    # magic number that the EC answers on HELLO
+    s.assertEqual(response.out_data, 0xA1B2C3D4)
