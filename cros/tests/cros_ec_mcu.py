@@ -42,3 +42,23 @@ class TestCrosECMCU(unittest.TestCase):
     def test_cros_pd_hello(self):
         """ Checks basic comunication with the power delivery controller. """
         mcu_hello(self, "cros_pd")
+
+    def test_cros_fp_reboot(self):
+        """ Test reboot command on Fingerprint MCU.
+
+            Coming out of reset, the MCU boot into its RO firmware and
+            jumps to the RW version after validate its signature. If the
+            protocol used in RO version is different of the RW version, when
+            a reboot is issued the AP still uses the protocol version queried
+            before transition, this causes the AP to no communicate correctly
+            with the RO firmware and thus it doesn't switches to RW firmware.
+
+            This test detects the that situation and reports a failure when
+            the embedded controller is not able to transition from RO to RW,
+            which is an indication that there is a problem.
+
+            The above issue was fixed with the kernel patch 241a69ae8ea8
+            ("platform/chrome: cros_ec: Query EC protocol version if EC
+            transitions between RO/RW).
+        """
+        check_mcu_reboot_rw(self, "cros_fp")

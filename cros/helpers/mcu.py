@@ -10,6 +10,7 @@ EC_CMD_PROTO_VERSION = 0x0000
 EC_CMD_HELLO = 0x0001
 EC_CMD_GET_VERSION = 0x0002
 EC_CMD_GET_FEATURES = 0x000D
+EC_CMD_REBOOT = 0x00D1
 
 EC_HOST_PARAM_SIZE = 0xFC
 
@@ -58,6 +59,9 @@ EC_FEATURE_REFINED_TABLET_MODE_HYSTERESIS = 37
 EC_FEATURE_SCP = 39
 EC_FEATURE_ISH = 40
 
+EC_IMAGE_UNKNOWN = 0
+EC_IMAGE_RO = 1
+EC_IMAGE_RW = 2
 
 class cros_ec_command(Structure):
     _fields_ = [
@@ -77,6 +81,13 @@ class ec_params_hello(Structure):
 class ec_response_hello(Structure):
     _fields_ = [("out_data", c_uint)]
 
+class ec_response_get_version(Structure):
+    _fields_ = [
+        ("version_string_ro", c_ubyte * 32),
+        ("version_string_rw", c_ubyte * 32),
+        ("reserved", c_ubyte * 32),
+        ("current_image", c_uint),
+    ]
 
 class ec_params_get_features(Structure):
     _fields_ = [("in_data", c_ulong)]
@@ -163,3 +174,43 @@ def mcu_hello(s, name):
     s.assertEqual(cmd.result, 0)
     # magic number that the EC answers on HELLO
     s.assertEqual(response.out_data, 0xA1B2C3D4)
+
+def mcu_get_version(name):
+    if os.path.exists("/dev/" + name):
+        fd = open("/dev/" + name, "r")
+
+        response = ec_response_get_version()
+
+        cmd = cros_ec_command()
+        cmd.version = 0
+        cmd.command = EC_CMD_GET_VERSION
+        cmd.insize = sizeof(response)
+        cmd.outsize = 0
+
+        fcntl.ioctl(fd, EC_DEV_IOCXCMD, cmd)
+        memmove(addressof(response), addressof(cmd.data), cmd.insize)
+
+        fd.close()
+        if cmd.result == 0:
+            return response
+
+def mcu_reboot(name):
+    fd = open("/dev/" + name, "r")
+    cmd = cros_ec_command()
+    cmd.version = 0
+    cmd.command = EC_CMD_REBOOT
+    cmd.insize = 0
+    cmd.outsize = 0
+    try:
+        fcntl.ioctl(fd, EC_DEV_IOCXCMD, cmd)
+    except IOError:
+        pass
+    fd.close()
+
+def check_mcu_reboot_rw(s, name):
+    if not os.path.exists("/dev/" + name):
+        s.skipTest("cros_fp not present, skipping")
+    mcu_reboot(name)
+    response = mcu_get_version(name)
+    s.assertEqual(response.current_image, EC_IMAGE_RW)
+
