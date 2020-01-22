@@ -9,19 +9,19 @@ import unittest
 class TestCrosECMCU(unittest.TestCase):
     def test_cros_ec_abi(self):
         """ Checks the standard ABI for the main Embedded Controller. """
-        check_mcu_abi(self, "ec")
+        check_mcu_abi(self, "cros_ec")
 
     def test_cros_fp_abi(self):
         """ Checks the standard ABI for the Fingerprint EC. """
-        check_mcu_abi(self, "fp")
+        check_mcu_abi(self, "cros_fp")
 
     def test_cros_tp_abi(self):
         """ Checks the standard ABI for the Touchpad EC. """
-        check_mcu_abi(self, "tp")
+        check_mcu_abi(self, "cros_tp")
 
     def test_cros_pd_abi(self):
         """ Checks the standard ABI for the Power Delivery EC. """
-        check_mcu_abi(self, "pd")
+        check_mcu_abi(self, "cros_pd")
 
     def test_cros_ec_chardev(self):
         """ Checks the main Embedded controller character device. """
@@ -42,4 +42,3 @@ class TestCrosECMCU(unittest.TestCase):
     def test_cros_pd_hello(self):
         """ Checks basic comunication with the power delivery controller. """
         mcu_hello(self, "cros_pd")
-

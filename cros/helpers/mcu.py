@@ -130,11 +130,11 @@ def check_mcu_abi(s, name):
     """ Checks that the MCU character device exists in /dev and then verifies
         the standard MCU ABI in /sys/class/chromeos.
     """
-    if not os.path.exists("/dev/cros_" + name):
+    if not os.path.exists("/dev/" + name):
         s.skipTest("MCU " + name + " not supported, skipping")
     files = ["flashinfo", "reboot", "version"]
     sysfs_check_attributes_exists(
-        s, "/sys/class/chromeos/", "cros_" + name, files, False
+        s, "/sys/class/chromeos/", name, files, False
     )
 
 
