@@ -12,14 +12,14 @@ Requirements
 - `unittest2 <https://docs.python.org/3/library/unittest.html>`_ 1.1.0 or later
 
 Installing ``cros-ec-tests``
-========================
+============================
 
 To install ``cros-ec-tests`` with `pip <https://pip.pypa.io>`_, run::
 
     pip install git+https://gitlab.collabora.com/chromiumos/cros-ec-tests.git
 
 Testing an Installed ``cros-ec-tests``
-----------------------------------
+--------------------------------------
 
 The easiest way to test if your installed version of ``cros-ec-tests`` is running
 correctly is to use one of the runner function::
