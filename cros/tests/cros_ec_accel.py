@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from cros.helpers.sysfs import *
-from cros.helpers.kernel import *
 import math
 import unittest
 
@@ -34,10 +33,6 @@ class TestCrosECAccel(unittest.TestCase):
         sysfs_check_attributes_exists(
             self, "/sys/bus/iio/devices", "cros-ec-accel", files, True
         )
-        if kernel_greater_than(5, 4, 0):
-            sysfs_check_attributes_exists(
-                self, "/sys/bus/iio/devices", "cros-ec-accel", ["frequency"], True
-            )
 
     def test_cros_ec_accel_iio_data_is_valid(self):
         """ Validates accelerometer data by computing the magnitude. If the
