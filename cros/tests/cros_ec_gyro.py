@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from cros.helpers.sysfs import *
-from cros.helpers.kernel import *
 import unittest
 
 
@@ -33,7 +32,3 @@ class TestCrosECGyro(unittest.TestCase):
         sysfs_check_attributes_exists(
             self, "/sys/bus/iio/devices", "cros-ec-gyro", files, True
         )
-        if kernel_greater_than(5, 4, 0):
-            sysfs_check_attributes_exists(
-                self, "/sys/bus/iio/devices", "cros-ec-gyro", ["frequency"], True
-            )
