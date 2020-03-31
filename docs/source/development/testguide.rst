@@ -42,11 +42,11 @@ Using the unittest Command-Line Interface
 The unittest module can be used from the command line to run tests from
 modules::
 
-    python -m unittest cros.tests.cros_ec_rtc
+    python3 -m unittest cros.tests.cros_ec_rtc
 
 You can run tests with more detail (higher verbosity) by passing in the -v flag::
 
-    python -m unittest -v cros.tests.cros_ec_rtc
+    python3 -m unittest -v cros.tests.cros_ec_rtc
 
 Writing tests
 *************
