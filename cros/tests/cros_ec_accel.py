@@ -54,24 +54,27 @@ class TestCrosECAccel(unittest.TestCase):
         ACCEL_1G_IN_MS2 = 9.8185
         ACCEL_MAG_VALID_OFFSET = 0.25
         match = 0
-        for devname in os.listdir("/sys/bus/iio/devices"):
-            base_path = "/sys/bus/iio/devices/" + devname + "/"
-            fd = open(base_path + "name", "r")
-            devtype = fd.read()
-            if devtype.startswith("cros-ec-accel"):
-                location = read_file(base_path + "location")
-                accel_scale = float(read_file(base_path + "scale"))
-                exp = ACCEL_1G_IN_MS2
-                err = exp * ACCEL_MAG_VALID_OFFSET
-                mag = 0
-                for axis in ["x", "y", "z"]:
-                    axis_path = base_path + "in_accel_" + axis + "_raw"
-                    value = int(read_file(axis_path))
-                    value *= accel_scale
-                    mag += value * value
-                mag = math.sqrt(mag)
-                self.assertTrue(abs(mag - exp) <= err)
-                match += 1
-            fd.close()
+        try:
+            for devname in os.listdir("/sys/bus/iio/devices"):
+                base_path = "/sys/bus/iio/devices/" + devname + "/"
+                fd = open(base_path + "name", "r")
+                devtype = fd.read()
+                if devtype.startswith("cros-ec-accel"):
+                    location = read_file(base_path + "location")
+                    accel_scale = float(read_file(base_path + "scale"))
+                    exp = ACCEL_1G_IN_MS2
+                    err = exp * ACCEL_MAG_VALID_OFFSET
+                    mag = 0
+                    for axis in ["x", "y", "z"]:
+                        axis_path = base_path + "in_accel_" + axis + "_raw"
+                        value = int(read_file(axis_path))
+                        value *= accel_scale
+                        mag += value * value
+                    mag = math.sqrt(mag)
+                    self.assertTrue(abs(mag - exp) <= err)
+                    match += 1
+                fd.close()
+        except IOError as e:
+            self.skipTest("Exception occured: {0}, skipping".format(e.strerror))
         if match == 0:
             self.skipTest("No accelerometer found, skipping")

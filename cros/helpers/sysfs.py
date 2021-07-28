@@ -18,18 +18,21 @@ def sysfs_check_attributes_exists(s, path, name, files, check_devtype):
         before checking a device path.
     """
     match = 0
-    for devname in os.listdir(path):
-        if check_devtype:
-            fd = open(path + "/" + devname + "/name", "r")
-            devtype = fd.read()
-            fd.close()
-            if not devtype.startswith(name):
-                continue
-        else:
-            if not devname.startswith(name):
-                continue
-        match += 1
-        for filename in files:
-            s.assertEqual(os.path.exists(path + "/" + devname + "/" + filename), 1)
+    try:
+        for devname in os.listdir(path):
+            if check_devtype:
+                fd = open(path + "/" + devname + "/name", "r")
+                devtype = fd.read()
+                fd.close()
+                if not devtype.startswith(name):
+                    continue
+            else:
+                if not devname.startswith(name):
+                    continue
+            match += 1
+            for filename in files:
+                s.assertEqual(os.path.exists(path + "/" + devname + "/" + filename), 1)
+    except IOError as e:
+            self.skipTest("Exception occured: {0}, skipping".format(e.strerror))
     if match == 0:
         s.skipTest("No " + name + " found, skipping")
