@@ -31,8 +31,9 @@ def sysfs_check_attributes_exists(s, path, name, files, check_devtype):
                     continue
             match += 1
             for filename in files:
-                s.assertEqual(os.path.exists(path + "/" + devname + "/" + filename), 1)
+                p = os.path.join(path, devname, filename)
+                s.assertTrue(os.path.exists(p), msg=f"{p} not found")
     except IOError as e:
-            self.skipTest("Exception occured: {0}, skipping".format(e.strerror))
+        s.skipTest(f"{e}")
     if match == 0:
-        s.skipTest("No " + name + " found, skipping")
+        s.skipTest(f"No {name} found")

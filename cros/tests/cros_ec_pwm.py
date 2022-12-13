@@ -3,7 +3,7 @@
 
 from cros.helpers.sysfs import *
 import unittest
-
+import os
 
 class TestCrosECPWM(unittest.TestCase):
     def test_cros_ec_pwm_backlight(self):
@@ -12,8 +12,10 @@ class TestCrosECPWM(unittest.TestCase):
             duty cycle.
         """
         if not os.path.exists("/sys/class/backlight/backlight/max_brightness"):
-            self.skipTest("No backlight pwm found, skipping")
+            self.skipTest("No backlight pwm found")
         is_ec_pwm = False
+        if not os.path.exists("/sys/kernel/debug/pwm"):
+            self.skipTest("/sys/kernel/debug/pwm not found")
         fd = open("/sys/kernel/debug/pwm", "r")
         line = fd.readline()
         while line and not is_ec_pwm:
@@ -30,7 +32,7 @@ class TestCrosECPWM(unittest.TestCase):
             line = fd.readline()
         fd.close()
         if not is_ec_pwm:
-            self.skipTest("No EC backlight pwm found, skipping")
+            self.skipTest("No EC backlight pwm found")
         fd = open("/sys/class/backlight/backlight/max_brightness", "r")
         brightness = int(int(fd.read()) / 2)
         fd.close()
@@ -42,11 +44,11 @@ class TestCrosECPWM(unittest.TestCase):
         while line:
             if "backlight" in line:
                 start = line.find("duty") + 6
-                self.assertNotEqual(start, 5)
+                self.assertNotEqual(start, 5, msg=f"error reading back PWM info: {line}")
                 end = start + line[start:].find(" ")
-                self.assertNotEqual(start, end)
+                self.assertNotEqual(start, end, msg=f"error reading back PWM info: {line}")
                 duty = int(line[start:end])
-                self.assertNotEqual(duty, 0)
+                self.assertNotEqual(duty, 0, msg=f"error reading back PWM info: {line}")
                 break
             line = fd.readline()
         fd.close()
