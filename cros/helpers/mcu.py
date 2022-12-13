@@ -178,8 +178,9 @@ def mcu_hello(s, name):
                   msg=f"Wrong EC HELLO magic number ({response.out_data})")
 
 def mcu_get_version(name):
-    if os.path.exists("/dev/" + name):
-        fd = open("/dev/" + name, "r")
+    devpath = os.path.join("/dev", name)
+    if os.path.exists(devpath):
+        fd = open(devpath, "r")
 
         response = ec_response_get_version()
 
@@ -197,7 +198,7 @@ def mcu_get_version(name):
             return response
 
 def mcu_reboot(name):
-    fd = open("/dev/" + name, "r")
+    fd = open(os.path.join("/dev", name), "r")
     cmd = cros_ec_command()
     cmd.version = 0
     cmd.command = EC_CMD_REBOOT

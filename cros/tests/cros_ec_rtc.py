@@ -13,8 +13,10 @@ class TestCrosECRTC(unittest.TestCase):
             self.skipTest("EC_FEATURE_RTC not supported, skipping")
         match = 0
         try:
-            for devname in os.listdir("/sys/class/rtc"):
-                fd = open("/sys/class/rtc/" + devname + "/name", "r")
+            basepath = "/sys/class/rtc"
+            for devname in os.listdir(basepath):
+                dev_basepath = os.path.join(basepath, devname)
+                fd = open(os.path.join(dev_basepath, "name"), "r")
                 devtype = fd.read()
                 fd.close()
                 if devtype.startswith("cros-ec-rtc"):
