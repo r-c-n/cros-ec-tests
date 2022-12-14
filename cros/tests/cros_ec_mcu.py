@@ -25,7 +25,8 @@ class TestCrosECMCU(unittest.TestCase):
 
     def test_cros_ec_chardev(self):
         """ Checks the main Embedded controller character device. """
-        self.assertEqual(os.path.exists("/dev/cros_ec"), 1)
+        self.assertTrue(os.path.exists("/dev/cros_ec"),
+                        msg="/dev/cros_ec not found")
 
     def test_cros_ec_hello(self):
         """ Checks basic comunication with the main Embedded controller. """

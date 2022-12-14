@@ -71,10 +71,12 @@ class TestCrosECAccel(unittest.TestCase):
                         value *= accel_scale
                         mag += value * value
                     mag = math.sqrt(mag)
-                    self.assertTrue(abs(mag - exp) <= err)
+                    self.assertTrue(abs(mag - exp) <= err,
+                                    msg=("Incorrect accelerometer data "
+                                         f"in {base_path} ({abs(mag - exp)})"))
                     match += 1
                 fd.close()
         except IOError as e:
-            self.skipTest("Exception occured: {0}, skipping".format(e.strerror))
+            self.skipTest("Exception occured: {0}".format(e))
         if match == 0:
-            self.skipTest("No accelerometer found, skipping")
+            self.skipTest("No accelerometer found")

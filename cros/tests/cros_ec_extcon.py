@@ -3,35 +3,28 @@
 
 from cros.helpers.sysfs import *
 import unittest
-
+import os
 
 class TestCrosECextcon(unittest.TestCase):
     def test_cros_ec_extcon_usbc_abi(self):
         """ Checks the cros-ec extcon ABI. """
         match = 0
         try:
-            for devname in os.listdir("/sys/class/extcon"):
-                devtype = read_file("/sys/class/extcon/" + devname + "/name")
+            basepath = "/sys/class/extcon"
+            for devname in os.listdir(basepath):
+                dev_basepath = os.path.join(basepath, devname)
+                devtype = read_file(os.path.join(dev_basepath, "name"))
                 if ".spi:ec@0:extcon@" in devtype:
-                    self.assertEqual(
-                        os.path.exists("/sys/class/extcon/" + devname + "/state"), 1
-                    )
-                    for cable in os.listdir("/sys/class/extcon/" + devname):
+                    p = os.path.join(dev_basepath, "state")
+                    self.assertTrue(os.path.exists(p), msg=f"{p} not found")
+                    for cable in os.listdir(dev_basepath):
                         if cable.startswith("cable"):
-                            self.assertEqual(
-                                os.path.exists(
-                                    "/sys/class/extcon/" + devname + "/" + cable + "/name"
-                                ),
-                                1,
-                            )
-                            self.assertEqual(
-                                os.path.exists(
-                                    "/sys/class/extcon/" + devname + "/" + cable + "/state"
-                                ),
-                                1,
-                            )
+                            p = os.path.join(dev_basepath, cable, "name")
+                            self.assertTrue(os.path.exists(p), msg=f"{p} not found")
+                            p = os.path.join(dev_basepath, cable, "state")
+                            self.assertTrue(os.path.exists(p), msg=f"{p} not found")
                             match += 1
         except IOError as e:
-            self.skipTest("Exception occured: {0}, skipping".format(e.strerror))
+            self.skipTest("Exception occured: {0}".format(e))
         if match == 0:
-            self.skipTest("No extcon device found, skipping")
+            self.skipTest("No extcon device found")

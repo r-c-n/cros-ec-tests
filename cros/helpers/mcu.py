@@ -142,7 +142,7 @@ def check_mcu_abi(s, name):
         the standard MCU ABI in /sys/class/chromeos.
     """
     if not os.path.exists("/dev/" + name):
-        s.skipTest("MCU " + name + " not supported, skipping")
+        s.skipTest("MCU " + name + " not supported")
     files = ["flashinfo", "reboot", "version"]
     sysfs_check_attributes_exists(
         s, "/sys/class/chromeos/", name, files, False
@@ -152,7 +152,7 @@ def check_mcu_abi(s, name):
 def mcu_hello(s, name):
     """ Checks basic comunication with MCU. """
     if not os.path.exists("/dev/" + name):
-        s.skipTest("MCU " + name + " not present, skipping")
+        s.skipTest("MCU " + name + " not present")
     fd = open("/dev/" + name, "r")
     param = ec_params_hello()
     param.in_data = 0xA0B0C0D0  # magic number that the EC expects on HELLO
@@ -171,9 +171,10 @@ def mcu_hello(s, name):
 
     fd.close()
 
-    s.assertEqual(cmd.result, 0)
+    s.assertEqual(cmd.result, 0, msg="Error sending EC HELLO")
     # magic number that the EC answers on HELLO
-    s.assertEqual(response.out_data, 0xA1B2C3D4)
+    s.assertEqual(response.out_data, 0xA1B2C3D4,
+                  msg=f"Wrong EC HELLO magic number ({response.out_data})")
 
 def mcu_get_version(name):
     if os.path.exists("/dev/" + name):
@@ -209,8 +210,9 @@ def mcu_reboot(name):
 
 def check_mcu_reboot_rw(s, name):
     if not os.path.exists("/dev/" + name):
-        s.skipTest("cros_fp not present, skipping")
+        s.skipTest("cros_fp not present")
     mcu_reboot(name)
     response = mcu_get_version(name)
-    s.assertEqual(response.current_image, EC_IMAGE_RW)
+    s.assertEqual(response.current_image, EC_IMAGE_RW,
+                  msg="Current EC image is not RW")
 

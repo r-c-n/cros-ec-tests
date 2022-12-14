@@ -4,7 +4,7 @@
 from cros.helpers.mcu import *
 from cros.helpers.sysfs import *
 import unittest
-
+import os
 
 class TestCrosECRTC(unittest.TestCase):
     def test_cros_ec_rtc_abi(self):
@@ -13,8 +13,10 @@ class TestCrosECRTC(unittest.TestCase):
             self.skipTest("EC_FEATURE_RTC not supported, skipping")
         match = 0
         try:
-            for devname in os.listdir("/sys/class/rtc"):
-                fd = open("/sys/class/rtc/" + devname + "/name", "r")
+            basepath = "/sys/class/rtc"
+            for devname in os.listdir(basepath):
+                dev_basepath = os.path.join(basepath, devname)
+                fd = open(os.path.join(dev_basepath, "name"), "r")
                 devtype = fd.read()
                 fd.close()
                 if devtype.startswith("cros-ec-rtc"):
@@ -28,9 +30,8 @@ class TestCrosECRTC(unittest.TestCase):
                     ]
                     match += 1
                     for filename in files:
-                        self.assertEqual(
-                            os.path.exists("/sys/class/rtc/" + devname + "/" + filename), 1
-                        )
+                        p = os.path.join(dev_basepath, filename)
+                        self.assertTrue(os.path.exists(p), msg=f"{p} not found")
         except IOError as e:
-            self.skipTest("Exception occured: {0}, skipping".format(e.strerror))
-        self.assertNotEqual(match, 0)
+            self.skipTest("Exception occured: {0}".format(e))
+        self.assertNotEqual(match, 0, msg=f"No RTC device found")
