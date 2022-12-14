@@ -33,5 +33,5 @@ class TestCrosECRTC(unittest.TestCase):
                         p = os.path.join(dev_basepath, filename)
                         self.assertTrue(os.path.exists(p), msg=f"{p} not found")
         except IOError as e:
-            self.skipTest("Exception occured: {0}".format(e))
-        self.assertNotEqual(match, 0, msg=f"No RTC device found")
+            self.skipTest(f"{e}")
+        self.assertNotEqual(match, 0, msg="No RTC device found")

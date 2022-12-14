@@ -21,7 +21,7 @@ def sysfs_check_attributes_exists(s, path, name, files, check_devtype):
     try:
         for devname in os.listdir(path):
             if check_devtype:
-                fd = open(path + "/" + devname + "/name", "r")
+                fd = open(os.path.join(path, devname, 'name'), "r")
                 devtype = fd.read()
                 fd.close()
                 if not devtype.startswith(name):
@@ -34,6 +34,6 @@ def sysfs_check_attributes_exists(s, path, name, files, check_devtype):
                 p = os.path.join(path, devname, filename)
                 s.assertTrue(os.path.exists(p), msg=f"{p} not found")
     except IOError as e:
-        self.skipTest("Exception occured: {0}".format(e))
+        s.skipTest(f"{e}")
     if match == 0:
-        s.skipTest("No " + name + " found")
+        s.skipTest(f"No {name} found")

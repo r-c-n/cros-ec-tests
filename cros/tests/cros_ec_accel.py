@@ -6,7 +6,7 @@ from cros.helpers.mcu import *
 from cros.helpers.sysfs import *
 import math
 import unittest
-
+import os
 
 class TestCrosECAccel(unittest.TestCase):
     def test_cros_ec_accel_iio_abi(self):
@@ -55,28 +55,31 @@ class TestCrosECAccel(unittest.TestCase):
         ACCEL_MAG_VALID_OFFSET = 0.25
         match = 0
         try:
-            for devname in os.listdir("/sys/bus/iio/devices"):
-                base_path = "/sys/bus/iio/devices/" + devname + "/"
-                fd = open(base_path + "name", "r")
+            basepath = "/sys/bus/iio/devices"
+            for devname in os.listdir(basepath):
+                dev_basepath = os.path.join(basepath, devname)
+                fd = open(os.path.join(dev_basepath, "name"), "r")
                 devtype = fd.read()
                 if devtype.startswith("cros-ec-accel"):
-                    location = read_file(base_path + "location")
-                    accel_scale = float(read_file(base_path + "scale"))
+                    location = read_file(os.path.join(dev_basepath, "location"))
+                    accel_scale = float(read_file(os.path.join(dev_basepath, "scale")))
                     exp = ACCEL_1G_IN_MS2
                     err = exp * ACCEL_MAG_VALID_OFFSET
                     mag = 0
-                    for axis in ["x", "y", "z"]:
-                        axis_path = base_path + "in_accel_" + axis + "_raw"
+                    for axis in ["in_accel_x_raw",
+                                 "in_accel_y_raw",
+                                 "in_accel_z_raw"]:
+                        axis_path = os.path.join(dev_basepath, axis)
                         value = int(read_file(axis_path))
                         value *= accel_scale
                         mag += value * value
                     mag = math.sqrt(mag)
                     self.assertTrue(abs(mag - exp) <= err,
                                     msg=("Incorrect accelerometer data "
-                                         f"in {base_path} ({abs(mag - exp)})"))
+                                         f"in {dev_basepath} ({abs(mag - exp)})"))
                     match += 1
                 fd.close()
         except IOError as e:
-            self.skipTest("Exception occured: {0}".format(e))
+            self.skipTest(f"{e}")
         if match == 0:
             self.skipTest("No accelerometer found")

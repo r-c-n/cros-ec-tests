@@ -16,19 +16,19 @@ from cros.tests.cros_ec_extcon import *
 
 class LavaTextTestResult(unittest.TestResult):
     def __init__(self, runner, verbosity=0):
-        unittest.TestResult.__init__(self)
+        super().__init__()
         self.trace_on = verbosity > 0
         self.debug_on = verbosity > 1
         self.runner = runner
 
     def addSuccess(self, test):
-        unittest.TestResult.addSuccess(self, test)
+        super().addSuccess(test)
         testcase = test.id().rsplit(".")[-1]
         self.runner.writeUpdate(
             f"<LAVA_SIGNAL_TESTCASE TEST_CASE_ID={testcase} RESULT=pass>\n")
 
     def addError(self, test, err):
-        unittest.TestResult.addError(self, test, err)
+        super().addError(test, err)
         testcase = test.id().rsplit(".")[-1]
         if self.trace_on:
             exc_type, exc_value, exc_tb = err
@@ -45,7 +45,7 @@ class LavaTextTestResult(unittest.TestResult):
             f"<LAVA_SIGNAL_TESTCASE TEST_CASE_ID={testcase} RESULT=unknown>\n")
 
     def addFailure(self, test, err):
-        unittest.TestResult.addFailure(self, test, err)
+        super().addFailure(test, err)
         testcase = test.id().rsplit(".")[-1]
         if self.trace_on:
             exc_type, exc_value, exc_tb = err
@@ -62,7 +62,7 @@ class LavaTextTestResult(unittest.TestResult):
             f"<LAVA_SIGNAL_TESTCASE TEST_CASE_ID={testcase} RESULT=fail>\n")
 
     def addSkip(self, test, reason):
-        unittest.TestResult.addSkip(self, test, reason)
+        super().addSkip(test, reason)
         testcase = test.id().rsplit(".")[-1]
         if self.trace_on:
             self.runner.writeUpdate(f"{testcase} SKIP: {reason}\n")

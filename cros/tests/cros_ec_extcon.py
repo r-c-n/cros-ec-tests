@@ -25,6 +25,6 @@ class TestCrosECextcon(unittest.TestCase):
                             self.assertTrue(os.path.exists(p), msg=f"{p} not found")
                             match += 1
         except IOError as e:
-            self.skipTest("Exception occured: {0}".format(e))
+            self.skipTest(f"{e}")
         if match == 0:
             self.skipTest("No extcon device found")
