@@ -24,22 +24,20 @@ class TestCrosECGyro(unittest.TestCase):
             "in_anglvel_z_calibbias",
             "in_anglvel_z_calibscale",
             "in_anglvel_z_raw",
-            "location",
+            "label",
             "sampling_frequency",
             "sampling_frequency_available",
             "scale",
             "scan_elements/",
+            "trigger",
         ]
+        if (kernel_greater_than(5, 6, 0) and
+            is_feature_supported(EC_FEATURE_MOTION_SENSE_FIFO)):
+            files.remove("trigger")
+        if kernel_lower_than(6, 0, 0):
+            files.append("location")
+            files.remove("label")
+
         sysfs_check_attributes_exists(
             self, "/sys/bus/iio/devices", "cros-ec-gyro", files, True
         )
-        if kernel_greater_than(5, 6, 0):
-            if not is_feature_supported(EC_FEATURE_MOTION_SENSE_FIFO):
-                sysfs_check_attributes_exists(
-                    self, "/sys/bus/iio/devices", "cros-ec-gyro", [
-                        "trigger"], True
-                )
-        else:
-            sysfs_check_attributes_exists(
-                self, "/sys/bus/iio/devices", "cros-ec-gyro", ["trigger"], True
-            )

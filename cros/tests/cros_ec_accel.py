@@ -25,26 +25,24 @@ class TestCrosECAccel(unittest.TestCase):
             "in_accel_z_calibbias",
             "in_accel_z_calibscale",
             "in_accel_z_raw",
-            "location",
+            "label",
             "sampling_frequency",
             "sampling_frequency_available",
             "scale",
             "scan_elements/",
+            "trigger",
         ]
+        if (kernel_greater_than(5, 6, 0) and
+            is_feature_supported(EC_FEATURE_MOTION_SENSE_FIFO)):
+            files.remove("trigger")
+        if kernel_lower_than(6, 0, 0):
+            files.append("location")
+            files.remove("label")
+
         sysfs_check_attributes_exists(
             self, "/sys/bus/iio/devices", "cros-ec-accel", files, True
         )
-        if kernel_greater_than(5, 6, 0):
-            if not is_feature_supported(EC_FEATURE_MOTION_SENSE_FIFO):
-                sysfs_check_attributes_exists(
-                    self, "/sys/bus/iio/devices", "cros-ec-accel", [
-                        "trigger"], True
-                )
-        else:
-            sysfs_check_attributes_exists(
-                self, "/sys/bus/iio/devices", "cros-ec-accel", [
-                    "trigger"], True
-            )
+
 
     def test_cros_ec_accel_iio_data_is_valid(self):
         """ Validates accelerometer data by computing the magnitude. If the
@@ -61,7 +59,6 @@ class TestCrosECAccel(unittest.TestCase):
                 fd = open(os.path.join(dev_basepath, "name"), "r")
                 devtype = fd.read()
                 if devtype.startswith("cros-ec-accel"):
-                    location = read_file(os.path.join(dev_basepath, "location"))
                     accel_scale = float(read_file(os.path.join(dev_basepath, "scale")))
                     exp = ACCEL_1G_IN_MS2
                     err = exp * ACCEL_MAG_VALID_OFFSET
